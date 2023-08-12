@@ -1,0 +1,41 @@
+syntax = "v1"
+
+info (
+	title:   "api 文件完整示例写法"
+	desc:    "演示如何编写 api 文件"
+	author:  "keson.an"
+	date:    "2022 年 12 月 26 日"
+	version: "v1"
+)
+
+import "./base.api"
+
+type UserInfo {
+	Id   int64  `path:"id"`
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
+type QueryDT_dailyTradeReq {
+	StartDate string `json:"startdate"`
+	EndDate   string `json:"enddate"`
+	Domain    string `json:"domain"`
+}
+type QueryDT_dailyTradeResp {
+	Base
+	Data UserInfo `json:"data"`
+}
+type Request {
+	Name string `json:"name"`
+}
+type Response {
+	Message string `json:"message"`
+}
+
+service apiTools {
+	// 定義只有查詢
+	@handler QueryDTlist
+	post /query/List (QueryDT_dailyTradeReq) returns (QueryDT_dailyTradeResp)
+	@handler  SendMsg
+	post /send/msg(Request) returns (Response)
+}
